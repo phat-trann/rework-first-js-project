@@ -1,0 +1,14 @@
+@mixin box-sizing($value) {
+    -webkit-box-sizing: $value;
+    box-sizing: $value;
+}
+
+@mixin background-gradient($start, $end) {
+    background: -webkit-gradient(linear, left top, right top, from($start), to($end));
+    background: linear-gradient(90deg, $start 0%, $end 100%);
+}
+
+@mixin box-shadow($top, $left, $blur, $color) {
+    -webkit-box-shadow: $top $left $blur $color;
+    box-shadow: $top $left $blur $color;
+}

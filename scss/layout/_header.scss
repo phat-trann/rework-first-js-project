@@ -1,0 +1,32 @@
+.header {
+    text-align: center;
+
+    .ig,
+    .skt {
+        margin-bottom: 90px;
+    }
+
+    .img {
+        display: inline-block;
+        width: 128px;
+        height: 88px;
+        transition: background 0.2s ease;
+    }
+    
+    .after-img {
+        visibility: hidden;
+        display: inline-block;
+        position: absolute;
+        padding-top: 90px;
+    }
+
+    .btn {
+        width: 200px;
+        height: 50px;
+        
+    }
+
+    #oke {
+        display: none;
+    }
+}
