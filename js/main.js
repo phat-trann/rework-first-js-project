@@ -82,7 +82,7 @@ const randomPlayers = async () => {
     $('.poster--lanes').classList.add('poster--lanes__done');
 }
 
-function random(selectedIndex, playerArray) {
+const random = (selectedIndex, playerArray) => {
     let playerArrayLength = playerArray.length;
     let randomNumber = Math.floor(Math.random() * playerArrayLength);
 
