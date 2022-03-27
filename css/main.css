@@ -1,20 +1,8 @@
 @font-face {
-    font-family: Camphor_W01_Regular;
-    src: url(/fonts/Camphor_W01_Regular.ttf);
-}
-
-@font-face {
-    font-family: 'eina01-bolduploaded_file';
-    src: url("/fonts/eina01-bold-webfont.woff2") format("woff2"), url("/fonts/eina01-bold-webfont.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'eina_01_semiboldsemibold';
-    src: url("/fonts/eina01-semibold-webfont.woff2") format("woff2"), url("/fonts/eina01-semibold-webfont.woff") format("woff");
-    font-weight: normal;
-    font-style: normal;
+    font-family: 'CamphorW01';
+    src: local('Camphor W01 Regular'), local('CamphorW01-Regular'),
+        url('../fonts/CamphorW01-Regular.woff2') format('woff2'),
+        url('../fonts/CamphorW01-Regular.woff') format('woff');
 }
 
 * {
@@ -24,7 +12,7 @@
 
 body {
     margin: 0;
-    font-family: "Camphor_W01_Regular";
+    font-family: "CamphorW01";
     user-select: none;
 }
 
@@ -134,19 +122,19 @@ body {
 
 .poster .poster--lane .poster--lane__team::before {
     opacity: 0;
-    z-index: 2;
+    z-index: 4;
     transition: left .4s ease-in-out,
-                right .4s ease-in-out,
-                width .5s ease-in-out .5s;
+        right .4s ease-in-out,
+        width .5s ease-in-out .5s;
 }
 
 .poster .poster--lane .poster--lane__team::after {
     opacity: 0;
-    z-index: 3;
+    z-index: 5;
     background: #3c3d3b;
     transition: left .4s ease-in-out .5s,
-                right .4s ease-in-out .5s,
-                width .5s ease-in-out .7s;
+        right .4s ease-in-out .5s,
+        width .5s ease-in-out .7s;
 }
 
 .poster .poster--lane.poster--lane__selected .poster--lane__team::before,
@@ -159,6 +147,7 @@ body {
 .poster .poster--lane .poster--lane__ig::after {
     left: 100%;
 }
+
 .poster .poster--lane .poster--lane__it::before,
 .poster .poster--lane .poster--lane__it::after {
     right: 100%;
@@ -168,6 +157,7 @@ body {
 .poster .poster--lane.poster--lane__selected .poster--lane__ig::after {
     left: 0;
 }
+
 .poster .poster--lane.poster--lane__selected .poster--lane__it::before,
 .poster .poster--lane.poster--lane__selected .poster--lane__it::after {
     right: 0;
@@ -195,7 +185,7 @@ body {
     background: #0f1515;
     top: 0;
     transition: left .4s ease-in-out .5s,
-                right .4s ease-in-out .5s
+        right .4s ease-in-out .5s
 }
 
 .poster .poster--lane .poster--lane__it .lane--image::before {
@@ -227,9 +217,9 @@ body {
     color: white;
     margin: 0 3rem;
     opacity: 0;
-    transition: margin-left .2s ease-out 1s,
-                margin-right .2s ease-out 1s,
-                opacity .2s ease-out 1s;
+    transition: margin-left .2s ease-out 1.2s,
+        margin-right .2s ease-out 1.2s,
+        opacity .2s ease-out 1.2s;
 }
 
 .poster .poster--lane .poster--lane__it .lane--name {
@@ -240,7 +230,7 @@ body {
     margin-right: -3rem;
 }
 
-.poster .poster--lane.poster--lane__selected  .lane--name {
+.poster .poster--lane.poster--lane__selected .lane--name {
     opacity: 1;
     margin-left: 3rem;
     margin-right: 3rem;
@@ -267,4 +257,29 @@ body {
 
 .poster .poster--lane .lane--icon img {
     max-width: 50%;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.poster--lanes.poster--lanes__loading::before {
+    content: '';
+    display: block;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #f5a902;
+    width: 120px;
+    height: 120px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+    position: absolute;
+    top: calc(50% - 76px);
+    left: calc(50% - 76px);
 }

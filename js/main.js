@@ -1,147 +1,106 @@
-$(document).ready(main);
+const $ = document.querySelector.bind(document);
+const $$ = document.querySelectorAll.bind(document);
 
-function main() {
-    macdinh();
+class Player {
+    constructor(id, address) {
+        this.id = id;
+        this.address = address;
+    }
+
+    getImage() {
+        return `./img/players/${this.id}.jpg`;
+    }
+
+    getAddress() {
+        return this.address;
+    }
 }
 
-function macdinh() {
+const playerArray = [
+    new Player('phat', 'Nam Định'),
+    new Player('duong', 'Thanh Hoá'),
+    new Player('hiep', 'KonTum'),
+    new Player('duongv', 'Hà Nam'),
+    new Player('minh', 'Lâm Đồng'),
+    new Player('duy', 'Vĩnh Long'),
+    new Player('thang', 'Quận 2'),
+    new Player('anh', 'Gò Vấp'),
+    new Player('son-B', 'Hà Tĩnh'),
+    new Player('chau', 'Bình Định'),
+    new Player('duc', 'Nghệ An'),
+    new Player('hau', 'Bến Tre'),
+    new Player('qduy', 'Lâm Đồng')
+];
+let selectedIndex = [];
 
-    random_player();
-    var stop = 0;
-    var t;
-
-    $('#click').click(function () {
-        if (stop == 0) {
-            t = setInterval(random_player, 100);
-            $('#click').text("Stop");
-            stop = 1;
-        } else {
-            clearInterval(t);
-            $('#click').text("Play");
-            stop = 0;
-        }
+const randomTwoPlayers = (teamLaneIg, teamLaneIt, lane) => {
+    return new Promise((resolve) => {
+        let playerIg = playerArray[random(selectedIndex, playerArray)];
+        let playerIt = playerArray[random(selectedIndex, playerArray)];
+        let timeOut = setTimeout(() => {
+            teamLaneIg.querySelector('.lane--image img').src = playerIg.getImage();
+            teamLaneIt.querySelector('.lane--image img').src = playerIt.getImage();
+            teamLaneIg.querySelector('.lane--address').innerText = playerIg.getAddress();
+            teamLaneIt.querySelector('.lane--address').innerText = playerIt.getAddress();
+            lane.classList.add('poster--lane__selected');
+            resolve();
+            clearTimeout(timeOut);
+        }, 150);
     })
 }
 
-function random_player() {
-    var phat = {
-        name: "phat",
-        add: "Nam Định",
+const loading = () => {
+    $('.poster--lanes').classList.add('poster--lanes__loading');
 
-    };
-    var duong = {
-        name: "duong",
-        add: "Thanh Hoá",
-
-    };
-    var hiep = {
-        name: "hiep",
-        add: "KonTum",
-
-    };
-    var duongvat = {
-        name: "duongv",
-        add: "Hà Nam",
-
-    };
-    var minh = {
-        name: "minh",
-        add: "Lâm Đồng",
-
-    };
-    var duy = {
-        name: "duy",
-        add: "Vĩnh Long",
-
-    };
-    var thang = {
-        name: "thang",
-        add: "Quận 2",
-
-    };
-    var duc = {
-        name: "duc",
-        add: "Nghệ An",
-
-    };
-    var anh = {
-        name: "anh",
-        add: "Gò Vấp",
-
-    };
-    var qduy = {
-        name: "qduy",
-        add: "Bình Dương",
-    };
-    var hau = {
-        name: "hau",
-        add: "An Giang"
-    }
-    var sonB = {
-        name: 'son-B',
-        add: "Hà Tĩnh"
-    }
-    var chau = {
-        name: 'chau',
-        add: 'Bình Định'
-    }
-    var mang = new Array();
-    mang.push(phat, duong, sonB, duongvat, minh, duy, thang, chau, anh, hiep);
-    var mangchinh = new Array();
-    var mangso = new Array();
-
-    for (var i = 0; i <= 9; i++)
-        random(mangso);
-    for (var i = 0; i <= 9; i++) {
-        mangchinh[i] = mang[mangso[i]];
-    }
-
-    for (var i = 0; i <= 9; i++) {
-        if (i < 5) {
-            $('.img')[i].style.background = "url(./img/" + mangchinh[i].name + ".jpg) 50% no-repeat";
-
-        } else {
-            $('.img')[i].style.background = "url(./img/" + mangchinh[i].name + "-B.jpg) 50% no-repeat";
-        }
-
-    }
-
-    chonvitri(mangchinh);
-
-    $("#oke").css("display", "initial");
-
-}
-
-function random(mangso) {
-    var a;
-    do {
-        a = Math.floor(Math.random() * 10);
-    }
-    while (kiemtra(mangso, a) === false);
-    mangso.push(a);
-
-}
-
-function kiemtra(mangso, a) {
-    for (var i = 0; i <= mangso.length; i++) {
-        if (mangso[i] == a) {
-            return false;
-        }
-    }
-    return true;
-}
-
-function chonvitri(mangchinh) {
-
-    $('#oke').click(function () {
-            for (let i = 0; i <= 4; i++) {
-                $('.img-A')[i].style.background = "url(./img/" + mangchinh[i].name + ".jpg) 50% no-repeat";
-                $('.A-default')[i].innerHTML = mangchinh[i].add;
-
-                $('.img-B')[i].style.background = "url(./img/" + mangchinh[i + 5].name + "-B.jpg) 50% no-repeat";
-                $('.B-default')[i].innerHTML = mangchinh[i + 5].add;
-            }
-            $(".final-poster").slideDown();
-
+    return new Promise(resolve => {
+        let timeOut = setTimeout(() => {
+            $('.poster--lanes').classList.remove('poster--lanes__loading');
+            resolve();
+            clearTimeout(timeOut);
+        }, 1500);
     })
 }
+
+const randomPlayers = async () => {
+    let allLanes = $$('.poster--lane');
+
+    selectedIndex = [];
+    $('.poster--lanes').classList.remove('poster--lanes__done');
+    allLanes.forEach((lane) => {
+        lane.classList.remove('poster--lane__selected');
+    });
+
+    await loading();
+
+    for (let lane of allLanes) {
+        let teamLane = lane.querySelectorAll('.poster--lane__team');
+        let [teamLaneIg, teamLaneIt] = teamLane;
+
+        await randomTwoPlayers(teamLaneIg, teamLaneIt, lane);
+    }
+
+    $('.poster--lanes').classList.add('poster--lanes__done');
+}
+
+function random(selectedIndex, playerArray) {
+    let playerArrayLength = playerArray.length;
+    let randomNumber = Math.floor(Math.random() * playerArrayLength);
+
+    while (selectedIndex.indexOf(randomNumber) !== -1) {
+        randomNumber = Math.floor(Math.random() * playerArrayLength);
+    }
+
+    selectedIndex.push(randomNumber);
+
+    return randomNumber;
+}
+
+randomPlayers();
+
+document.addEventListener('keyup', (e) => {
+    if (e.code === 'F4' && $('.poster--lanes__done')) {
+        e.preventDefault();
+
+        randomPlayers();
+    }
+});
